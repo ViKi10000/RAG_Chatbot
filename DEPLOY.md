@@ -51,10 +51,10 @@
 
 ## Environment Variables
 
-Both `.env.example` files are in the repo. Fill them in locally before pushing to GitHub.
+Configuration is driven by environment variables. Use the `.env.example` files as templates.
 
-- **Backend:** `.env` with `GROQ_API_KEY`
-- **Frontend:** `.env` with `VITE_API_URL` (only used if different from default)
+- **Backend:** `backend/.env.example` — copy to `backend/.env`. Required: `GROQ_API_KEY`. Optional: `EMBEDDING_MODEL`, `GROQ_LLM_MODEL`, `CHROMA_COLLECTION_NAME`, `CHROMA_PERSIST_DIR`, `CHUNK_SIZE`, `CHUNK_OVERLAP`, `DATA_DIR`, `DOMAIN`, `DOMAIN_PROMPT`, `MAX_CONTEXT`, `TEMPERATURE`, `MAX_TOKENS`, `HOST`, `PORT`, `CORS_ORIGINS`.
+- **Frontend:** `frontend/.env.example` — copy to `frontend/.env`. Set `VITE_API_URL` for production. Optional: `VITE_EMBEDDING_MODEL`, `VITE_LLM_MODEL`.
 
 ---
 

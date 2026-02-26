@@ -1,5 +1,6 @@
 """Embedding generation module using SentenceTransformer."""
 
+import os
 import numpy as np
 import logging
 from typing import List
@@ -16,14 +17,14 @@ except ImportError:
 class EmbeddingManager:
     """Handles document embedding generation using SentenceTransformer."""
     
-    def __init__(self, model_name: str = "all-MiniLM-L6-v2"):
+    def __init__(self, model_name: str = None):
         """
         Initialize the embedding manager.
         
         Args:
-            model_name: HuggingFace model name for sentence embeddings
+            model_name: HuggingFace model name for sentence embeddings (default: EMBEDDING_MODEL env or "all-MiniLM-L6-v2")
         """
-        self.model_name = model_name
+        self.model_name = model_name or os.environ.get("EMBEDDING_MODEL", "all-MiniLM-L6-v2")
         self.model = None
         self.embedding_dim = None
         self._load_model()

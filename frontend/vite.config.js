@@ -13,4 +13,7 @@ export default defineConfig({
       },
     },
   },
+  preview: {
+    allowedHosts: ["rag-chatbot-frontend-7zn9.onrender.com"],
+  },
 });

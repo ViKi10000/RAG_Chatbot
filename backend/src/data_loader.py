@@ -29,19 +29,19 @@ except ImportError:
 class DataLoader:
     """Handles loading and processing of various document types."""
     
-    def __init__(self, chunk_size: int = 1000, chunk_overlap: int = 200):
+    def __init__(self, chunk_size: int = None, chunk_overlap: int = None):
         """
         Initialize data loader with text splitting configuration.
         
         Args:
-            chunk_size: Size of text chunks for splitting
-            chunk_overlap: Overlap between chunks
+            chunk_size: Size of text chunks for splitting (default: CHUNK_SIZE env or 1000)
+            chunk_overlap: Overlap between chunks (default: CHUNK_OVERLAP env or 200)
         """
-        self.chunk_size = chunk_size
-        self.chunk_overlap = chunk_overlap
+        self.chunk_size = chunk_size if chunk_size is not None else int(os.environ.get("CHUNK_SIZE", "1000"))
+        self.chunk_overlap = chunk_overlap if chunk_overlap is not None else int(os.environ.get("CHUNK_OVERLAP", "200"))
         self.text_splitter = RecursiveCharacterTextSplitter(
-            chunk_size=chunk_size,
-            chunk_overlap=chunk_overlap,
+            chunk_size=self.chunk_size,
+            chunk_overlap=self.chunk_overlap,
             length_function=len,
             separators=["\n\n", "\n", " ", ""]
         )

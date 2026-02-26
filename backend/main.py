@@ -44,10 +44,12 @@ DOMAIN_CONFIG = {
     "max_tokens": int(os.getenv("MAX_TOKENS", "1024")),
 }
 
-# Add CORS middleware
+# CORS: allow all by default; set CORS_ORIGINS to e.g. "https://app.example.com" to restrict
+_cors_origins = os.getenv("CORS_ORIGINS", "*")
+allow_origins = [o.strip() for o in _cors_origins.split(",") if o.strip()] if _cors_origins else ["*"]
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=allow_origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -91,16 +93,24 @@ class DataLoadRequest(BaseModel):
     data_directory: str
 
 
+def _default_embedding_model() -> str:
+    return os.getenv("EMBEDDING_MODEL", "all-MiniLM-L6-v2")
+
+
+def _default_llm_model() -> str:
+    return os.getenv("GROQ_LLM_MODEL", "llama-3.1-8b-instant")
+
+
 class InitializeRequest(BaseModel):
     """Request model for pipeline initialization."""
-    model_name: str = "all-MiniLM-L6-v2"
-    llm_model: str = "llama-3.1-8b-instant"
+    model_name: Optional[str] = None  # set from env in endpoint if not provided
+    llm_model: Optional[str] = None  # set from env in endpoint if not provided
 
 
 # Initialization functions
 def initialize_pipeline(
-    model_name: str = "all-MiniLM-L6-v2",
-    llm_model: str = "llama-3.1-8b-instant",
+    model_name: str = None,
+    llm_model: str = None,
     force: bool = False,
 ):
     """Initialize the RAG pipeline."""
@@ -115,12 +125,14 @@ def initialize_pipeline(
                 return True
 
             print("Initializing RAG pipeline...")
-            
+            _emb = model_name or _default_embedding_model()
+            _llm = llm_model or _default_llm_model()
+
             # Initialize components
-            embedding_manager = EmbeddingManager(model_name=model_name)
+            embedding_manager = EmbeddingManager(model_name=_emb)
             vector_store = VectorStore()
             retriever = RAGRetriever(vector_store, embedding_manager)
-            llm = GroqLLM(model_name=llm_model)
+            llm = GroqLLM(model_name=_llm)
             rag_pipeline = RAGPipeline(retriever, llm)
             data_loader = DataLoader()
             
@@ -174,7 +186,7 @@ async def startup_event():
         logger.info(f"Starting RAG Chatbot with domain: {DOMAIN_CONFIG['domain']}")
         initialize_pipeline()
         # Try to load existing documents
-        data_dir = "./data"
+        data_dir = os.getenv("DATA_DIR", "./data")
         if os.path.exists(data_dir):
             logger.info(f"Found data directory at {data_dir}")
             load_documents_to_store(data_dir)
@@ -216,8 +228,8 @@ async def health_check():
 async def initialize(request: InitializeRequest):
     """Initialize the RAG pipeline."""
     success = initialize_pipeline(
-        model_name=request.model_name,
-        llm_model=request.llm_model
+        model_name=request.model_name or _default_embedding_model(),
+        llm_model=request.llm_model or _default_llm_model(),
     )
     
     if success:
@@ -325,4 +337,6 @@ async def reset():
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    host = os.getenv("HOST", "0.0.0.0")
+    port = int(os.getenv("PORT", "8000"))
+    uvicorn.run(app, host=host, port=port)

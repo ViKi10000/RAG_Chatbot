@@ -1,7 +1,9 @@
 import axios from "axios";
 
-// Dynamic API base URL: use Vite env var or default to localhost
+// API base URL and default models from env (see .env.example)
 const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
+const DEFAULT_EMBEDDING_MODEL = import.meta.env.VITE_EMBEDDING_MODEL || "all-MiniLM-L6-v2";
+const DEFAULT_LLM_MODEL = import.meta.env.VITE_LLM_MODEL || "llama-3.1-8b-instant";
 
 const api = axios.create({
   baseURL: API_BASE_URL,
@@ -25,8 +27,8 @@ export const chatbotAPI = {
   // Health check
   health: () => api.get("/health"),
 
-  // Initialize pipeline
-  initialize: (modelName = "all-MiniLM-L6-v2", llmModel = "gemma2-9b-it") =>
+  // Initialize pipeline (uses VITE_EMBEDDING_MODEL / VITE_LLM_MODEL if set)
+  initialize: (modelName = DEFAULT_EMBEDDING_MODEL, llmModel = DEFAULT_LLM_MODEL) =>
     api.post("/init", {
       model_name: modelName,
       llm_model: llmModel,

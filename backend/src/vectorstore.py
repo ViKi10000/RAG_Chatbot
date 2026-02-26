@@ -20,18 +20,18 @@ class VectorStore:
     
     def __init__(
         self,
-        collection_name: str = "documents",
-        persist_directory: str = "./data/vector_store"
+        collection_name: str = None,
+        persist_directory: str = None,
     ):
         """
         Initialize the vector store.
         
         Args:
-            collection_name: Name of the ChromaDB collection
-            persist_directory: Directory to persist the vector store
+            collection_name: Name of the ChromaDB collection (default: CHROMA_COLLECTION_NAME or "documents")
+            persist_directory: Directory to persist the vector store (default: CHROMA_PERSIST_DIR or "./data/vector_store")
         """
-        self.collection_name = collection_name
-        self.persist_directory = persist_directory
+        self.collection_name = collection_name or os.environ.get("CHROMA_COLLECTION_NAME", "documents")
+        self.persist_directory = persist_directory or os.environ.get("CHROMA_PERSIST_DIR", "./data/vector_store")
         self.client = None
         self.collection = None
         self._initialize_store()

@@ -64,7 +64,7 @@ export default function App() {
        
         if (!pipelineInfo) {
           setBackendError(
-            "Backend not available or initialization failed. Make sure the API is running on port 8000.",
+            "Backend not available or initialization failed. Check that the API is running and VITE_API_URL is set correctly.",
           );
         }
       } finally {
