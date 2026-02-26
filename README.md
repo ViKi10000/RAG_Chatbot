@@ -4,16 +4,7 @@ This project is a simple Retrieval-Augmented Generation (RAG) chatbot. It answer
 
 ---
 
-## Deliverables (Technical Assessment)
 
-| Deliverable | Status |
-|-------------|--------|
-| **Working chatbot application** | ✅ Backend (FastAPI) + frontend (React) run locally; see [Running the project locally](#running-the-project-locally) below. |
-| **GitHub repository with complete source code** | ✅ All source code is in this repository. Clone it and follow the setup steps to run the app. |
-| **README explaining architecture, setup steps, and design decisions** | ✅ See [How it works (architecture)](#how-it-works-architecture), [Running the project locally](#running-the-project-locally), and [Design decisions](#design-decisions) below. |
-| **Brief note on potential improvements with additional time** | ✅ See [Potential improvements (if given more time)](#potential-improvements-if-given-more-time) below. |
-
----
 
 ## How it works (architecture)
 
