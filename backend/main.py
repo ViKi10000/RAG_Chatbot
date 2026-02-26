@@ -181,18 +181,15 @@ def load_documents_to_store(data_directory: str):
 # Startup event
 @app.on_event("startup")
 async def startup_event():
-    """Initialize pipeline on startup."""
-    try:
-        logger.info(f"Starting RAG Chatbot with domain: {DOMAIN_CONFIG['domain']}")
-        initialize_pipeline()
-        # Try to load existing documents
-        data_dir = os.getenv("DATA_DIR", "./data")
-        if os.path.exists(data_dir):
-            logger.info(f"Found data directory at {data_dir}")
-            load_documents_to_store(data_dir)
-    except Exception as e:
-        logger.warning(f"Startup initialization warning: {e}")
-        logger.info("Pipeline can be initialized via /init endpoint")
+    """
+    Lightweight startup.
+
+    Heavy initialization (loading the embedding model and documents) is done
+    lazily via the /init and /load-documents endpoints so the server can
+    bind to the port quickly on platforms like Render.
+    """
+    logger.info(f"Starting RAG Chatbot with domain: {DOMAIN_CONFIG['domain']}")
+    logger.info("RAG pipeline will be initialized on first /init call.")
 
 
 # Endpoints
