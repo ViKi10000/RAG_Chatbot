@@ -1,0 +1,21 @@
+Project Examples – Devcansol
+
+1. E-commerce Platform Development
+   - Tech Stack: React, Node.js, MongoDB
+   - Duration: 3 months
+   - Description: Built a scalable online marketplace with payment integration
+
+2. Data Analytics Dashboard
+   - Tech Stack: Python, Tableau, SQL
+   - Duration: 2 months
+   - Description: Developed dashboards for sales and marketing KPI tracking
+
+3. Automated HR Onboarding
+   - Tech Stack: RPA tools, Python
+   - Duration: 1 month
+   - Description: Automated the employee onboarding process, reducing manual work
+
+4. QA Automation for Web App
+   - Tech Stack: Selenium, Postman
+   - Duration: 1.5 months
+   - Description: Implemented test automation suite ensuring reliable software releases

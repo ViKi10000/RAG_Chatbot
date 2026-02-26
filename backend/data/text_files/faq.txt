@@ -1,0 +1,22 @@
+FAQs – Devcansol Private Limited
+
+Q1: What services does Devcansol provide?
+A1: Web development, data analytics, quality assurance, and process automation.
+
+Q2: Where is Devcansol located?
+A2: Chennai, Tamil Nadu, India.
+
+Q3: How can I contact Devcansol?
+A3: Email: info@devcansol.com | Phone: +91-44-XXXX-XXXX
+
+Q4: Does Devcansol offer internships?
+A4: Yes, internships are offered based on ongoing project needs.
+
+Q5: What industries does Devcansol serve?
+A5: Startups, SMEs, and enterprises across IT, finance, healthcare, and retail.
+
+Q6: What technologies does Devcansol use?
+A6: React, Node.js, Python, Django, Tableau, Power BI, Selenium, RPA tools.
+
+Q7: How does Devcansol ensure data privacy?
+A7: By following strict privacy policies and using industry-standard security protocols.
